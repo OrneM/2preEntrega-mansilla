@@ -41,33 +41,9 @@
     <main class="reserva-main">
         <section class="reservaTable">
             <h1 class="reservaTitle">Realizá tu reserva</h1>
-            
-           <!--<div id="cantidadPersonasContainer" class="form-floating">
-                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                <option selected id="cantidadPersonas">Cantidad de personas</option>
-                  <option value="1" id="cantidadPersonas">1</option>
-                  <option value="2" id="cantidadPersonas">2</option>
-                  <option value="3" id="cantidadPersonas">3</option>
-                  <option value="4" id="cantidadPersonas">4</option>
-                  <option value="5" id="cantidadPersonas">5</option>
-                  <option value="6" id="cantidadPersonas">6</option>
-                  <option value="7" id="cantidadPersonas">7</option>
-                  <option value="8" id="cantidadPersonas">8</option>
-                </select>
-                <label for="floatingSelect">Desplegá para seleccionar</label>
-              </div>
-
-              --> 
-
-              <!--<div class="input-container">
-                <input type="text" id="cantidadPersonasContainer" placeholder="Ingrese aqui la cantidad de comensales...">
-                <button type="submit" class="btnElegir" id="btnElegir" value="mostrar">Elegir</button>
-            </div> -->
-            
-
             <section class="form-container" id="agregar">
                 <form action="" id="agregar-form" class="form">
-                    <input type="number" id="agregar-input" class="form-input" placeholder="Elija aquí la cantidad de comensales...">
+                    <input type="number" min=1 max=8 id="agregar-input" class="form-input" placeholder="Elija aquí la cantidad de comensales...">
                     <input type="submit" id="agregar-submit" class="form-submit" value="Agregar">
                     <div class="cantidadElegida"></div>
                 </form>
@@ -91,7 +67,6 @@
             </div>
 
             <div class="dates" id="dates">
-            <!-- Las fechas se generarán con JavaScript -->
             </div>
             </div>
 
