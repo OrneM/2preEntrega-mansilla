@@ -44,16 +44,16 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarForm.reset();
     }
 
-    // Cargar reservas y configurar Flatpickr
-    fetch('reservas.json')
-        .then(response => response.json())
-        .then(data => {
-            const reservas = data.reservas.map(reserva => {
-                return {
-                    date: reserva.fecha,
-                    time: { start: reserva.horaInicio, end: reserva.horaFin }
-                };
-            });
+    fetch("./reservas.json")
+    .then(response => response.json())
+    .then(data => {
+        const reservas = data.reservas.map(reserva => {
+            return {
+                date: reserva.fecha,
+                time: { start: reserva.horaInicio, end: reserva.horaFin }
+            };
+        });
+
 
             // Inicializar el calendario Flatpickr
             flatpickr("#datetime", {
@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
 // deberia poder hacer que se tome informacion del json para verificar y mostrar al usuario los horarios y fechas que no nestan disponibles
 //antes de que empiece a elegir y que estos dias y horarios ocupados se pinten de rojo
 
