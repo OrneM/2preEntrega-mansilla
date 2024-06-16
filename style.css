@@ -61,60 +61,56 @@ section img.logo {
 
 /*Estructura y estilos de reservas*/
 
-  .reserva-main{
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    background-image: url(./assets/vista-superior-comida-deliciosa-espacio-copiar.jpg);
-    background-size: cover;
+.reserva-main{
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  background-image: url(./assets/vista-superior-comida-deliciosa-espacio-copiar.jpg);
+  background-size: cover;
+}
   
-  }
+.reservaTable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f245458e;
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
+  color: #2b2a29e0;
+  border-radius: 10px;
+  height: 75%;
+  width: 65%;
+  margin: 5%;
+  border: 1px solid rgb(120, 7, 7);
+  border-radius: 5%;
+  padding: 5%;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  background-color: rgba(224, 29, 29, 0.841);
+  font-weight: bold;
+}
   
-  .reservaTable {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f245458e;
-    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
-    color: #2b2a29e0;
-    border-radius: 10px;
-    height: 75%;
-    width: 65%;
-    margin: 5%;
-    border: 1px solid rgb(120, 7, 7);
-    border-radius: 5%;
-    padding: 5%;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
-    background-color: rgba(224, 29, 29, 0.841);
-    font-weight: bold;
+.reservaTitle {
+  margin-top: 5%;
+  border-bottom: 1px solid rgb(120, 7, 7) ;
+  color: #e9e3dc;
   
-  }
-  
-  .reservaTitle {
-    margin-top: 5%;
-    border-bottom: 1px solid rgb(120, 7, 7) ;
-    color: #e9e3dc;
-  
-  }
+}
  
-  form{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    width: 90%;
-
-  }
+form{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  width: 90%;
+}
 
 .form-container{
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 5%;
-  margin-bottom: 5%;
   width: 90%;
   
   }
@@ -131,7 +127,6 @@ section img.logo {
 
 .cantidadElegida.visible {
   display:flex;
-
 }
 
 input[type="number"] {
@@ -154,7 +149,6 @@ input[type="number"]::placeholder {
   color: #ff7b88;
 }
 
-
 .form-submit {
   width: 25%;
   margin-left: 2%;
@@ -172,103 +166,63 @@ input[type="number"]::placeholder {
 .btnElegir:hover {
   background-color: #f3dfe0;
   box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
-
 }
   
-.calendar {
-  width: 90%;
-  background-color: rgba(233, 87, 87, 0.496);
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-  
-.month {
+.calendar-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
-  background-color: #f64f4fe3;
-  color: white;
-  padding: 10px 20px;
-}
-  
-.month button {
-  background-color: #d3575760;
-  border: none;
-  color: #ffffff;
-  padding: 15px 32px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  border-radius: 8px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  margin-top: 4%;
-  border: 1px rgba(82, 2, 2, 0.5) solid;
+  width: 90%;
   
 }
-  
-.days, .dates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  background-color: #ccc;
+.flatpickr-disabled, .flatpickr-disabled:hover {
+  background: red !important;
+  color: white !important;
 }
-  
-.day, .date {
-  background-color: white;
-  padding: 10px 0;
-  text-align: center;
+
+.calendar-button{
+  width: 25%;
+  margin-left: 2%;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: 2px solid #ee6270;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #721c24;
+  background-color: #f7b8b8c8;
+  color:#790606
 }
-  
-.day {
-  background-color: #f0f0f0;
-  font-weight: bold;
-}
-  
-.date.empty {
-  background-color: transparent;
-}
-  
-  
-  
-#time-buttons-container {
+
+.calendar-input{
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
-}
-  
-.time-button {
-  background-color: #ce1414;
-  border: none;
-  color: #ffffff;
-  padding: 15px 32px;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  border-radius: 8px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  margin-top: 4%;
-  border: 1px rgba(82, 2, 2, 0.5) solid;
-}
-  
-.time-button:hover {
-    background-color: #ad0009;
-    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.4);
-    color: #f7f6f4;
-}
-  
-.confirmaReserva {
-  margin-bottom: 5%;
+  flex-direction: row;
+  align-items: center;
   margin-top: 5%;
+  margin-bottom: 5%;
+  width: 90%;
 }
-  
+
+.date-input{
+  width: 90%;
+  padding: 10px 15px;
+  font-size: 1em;
+  border: 2px solid #ee6270;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #a22424;
+}
+
+.date-input:focus {
+  border-color: #f1a1a8;
+  box-shadow: 0 0 10px rgba(241, 161, 168, 0.5);
+}
+
+.date-input::placeholder {
+  color: #ff7b88;
+} 
+
 .btn-pizzeria {
   background-color: #ce1414;
   border: none;

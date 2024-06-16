@@ -1,0 +1,107 @@
+[
+    {
+        "cantidad": 1,
+        "fechaHora": "2024-05-20 18:00",
+        "nombre": "Juan",
+        "apellido": "Pérez",
+        "celular": "123456789"
+    },
+    {
+        "cantidad": 2,
+        "fechaHora": "2024-05-21 18:15",
+        "nombre": "María",
+        "apellido": "García",
+        "celular": "987654321"
+    },
+    {
+        "cantidad": 3,
+        "fechaHora": "2024-05-22 18:30",
+        "nombre": "Carlos",
+        "apellido": "Rodríguez",
+        "celular": "112233445"
+    },
+    {
+        "cantidad": 4,
+        "fechaHora": "2024-05-23 18:45",
+        "nombre": "Ana",
+        "apellido": "Martínez",
+        "celular": "223344556"
+    },
+    {
+        "cantidad": 5,
+        "fechaHora": "2024-05-24 19:00",
+        "nombre": "Pedro",
+        "apellido": "López",
+        "celular": "334455667"
+    },
+    {
+        "cantidad": 6,
+        "fechaHora": "2024-05-25 19:15",
+        "nombre": "Sofía",
+        "apellido": "González",
+        "celular": "445566778"
+    },
+    {
+        "cantidad": 7,
+        "fechaHora": "2024-05-26 19:30",
+        "nombre": "Luis",
+        "apellido": "Hernández",
+        "celular": "556677889"
+    },
+    {
+        "cantidad": 8,
+        "fechaHora": "2024-05-27 19:45",
+        "nombre": "Elena",
+        "apellido": "Jiménez",
+        "celular": "667788990"
+    },
+    {
+        "cantidad": 1,
+        "fechaHora": "2024-05-28 20:00",
+        "nombre": "Miguel",
+        "apellido": "Ruiz",
+        "celular": "778899001"
+    },
+    {
+        "cantidad": 2,
+        "fechaHora": "2024-05-29 20:15",
+        "nombre": "Isabel",
+        "apellido": "Torres",
+        "celular": "889900112"
+    },
+    {
+        "cantidad": 3,
+        "fechaHora": "2024-05-30 20:30",
+        "nombre": "Roberto",
+        "apellido": "Ramírez",
+        "celular": "990011223"
+    },
+    {
+        "cantidad": 4,
+        "fechaHora": "2024-05-31 20:45",
+        "nombre": "Laura",
+        "apellido": "Flores",
+        "celular": "101112233"
+    },
+    {
+        "cantidad": 5,
+        "fechaHora": "2024-06-01 21:00",
+        "nombre": "Daniel",
+        "apellido": "Sánchez",
+        "celular": "212223344"
+    },
+    {
+        "cantidad": 6,
+        "fechaHora": "2024-06-02 21:15",
+        "nombre": "Natalia",
+        "apellido": "Castro",
+        "celular": "323334455"
+    },
+    {
+        "cantidad": 7,
+        "fechaHora": "2024-06-03 21:30",
+        "nombre": "Pablo",
+        "apellido": "Ortiz",
+        "celular": "434445566"
+    }
+]
