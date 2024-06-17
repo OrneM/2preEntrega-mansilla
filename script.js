@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 onChange: function(selectedDates, dateStr) {
                     selectedDateTime.dateTime = dateStr;
+                    // Guardar la fecha seleccionada en localStorage
+                    localStorage.setItem("Fecha seleccionada", dateStr);
                 }
             });
 
