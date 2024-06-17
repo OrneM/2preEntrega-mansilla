@@ -44,16 +44,16 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarForm.reset();
     }
 
-    fetch("./reservas.json")
-    .then(response => response.json())
-    .then(data => {
-        const reservas = data.reservas.map(reserva => {
-            return {
-                date: reserva.fecha,
-                time: { start: reserva.horaInicio, end: reserva.horaFin }
-            };
-        });
-
+    // Cargar y procesar reservas desde el archivo JSON
+    fetch('reservas.json')
+        .then(response => response.json())
+        .then(data => {
+            const reservas = data.map(reserva => {
+                return {
+                    dateTime: reserva.fechaHora,
+                    cantidad: reserva.cantidad
+                };
+            });
 
             // Inicializar el calendario Flatpickr
             flatpickr("#datetime", {
@@ -68,21 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 locale: {
                     firstDayOfWeek: 1 // Lunes es el primer día de la semana
                 },
-                disable: [
-                    function(date) {
-                        // Deshabilitar lunes (1) y martes (2)
-                        return (date.getDay() === 1 || date.getDay() === 2);
-                    },
-                    function(date) {
-                        // Deshabilitar fechas reservadas
-                        const fechaStr = date.toISOString().split('T')[0];
-                        return reservas.some(reserva => reserva.date === fechaStr);
-                    }
-                ],
+                disable: reservas.map(reserva => new Date(reserva.dateTime)),
                 onDayCreate: function(dObj, dStr, fp, dayElem) {
                     const date = dayElem.dateObj;
                     const fechaStr = date.toISOString().split('T')[0];
-                    if (reservas.some(reserva => reserva.date === fechaStr)) {
+                    const esFechaOcupada = reservas.some(reserva => reserva.dateTime.includes(fechaStr));
+                    if (esFechaOcupada) {
                         dayElem.classList.add('flatpickr-disabled');
                     }
                 },
@@ -90,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     selectedDateTime.dateTime = dateStr;
                 }
             });
+
+            // Mostrar los horarios no disponibles inicialmente
+            datetimeInput.disabled = true;
+            chooseButton.disabled = true;
         });
 
     // Event listener para el envío del formulario
