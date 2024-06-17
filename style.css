@@ -223,6 +223,13 @@ input[type="number"]::placeholder {
   color: #ff7b88;
 } 
 
+.hidden {
+  display: none;
+}
+.visible {
+  display: block;
+}
+
 .btn-pizzeria {
   background-color: #ce1414;
   border: none;

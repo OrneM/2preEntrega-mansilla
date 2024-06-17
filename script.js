@@ -8,16 +8,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const agregar = document.querySelector("#agregar");
     const chooseButton = document.getElementById('choose-button');
     const datetimeInput = document.querySelector("#datetime");
+    const dateTimeContainer = document.querySelector("#date-time-container");
+    const datosReservaDiv = document.querySelector("#datos-reserva");
+    const confirmarReservaForm = document.querySelector("#confirmar-reserva-form");
 
     const selectedDateTime = {
         dateTime: null
     };
 
-    // Inicialmente deshabilitar el campo de calendario y el botón de seleccionar
+    // Inicialmente ocultar el campo de calendario y el formulario de datos
     datetimeInput.disabled = true;
     chooseButton.disabled = true;
+    datosReservaDiv.classList.add('hidden');
 
-    // Función para manejar el envío del formulario
+    // Función para manejar el envío del formulario inicial
     function agregarPersonas(e) {
         e.preventDefault();
         const inputValue = parseInt(agregarInput.value, 10);
@@ -56,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Inicializar el calendario Flatpickr
-            flatpickr("#datetime", {
+            const fp = flatpickr("#datetime", {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
                 time_24hr: true,
@@ -81,6 +85,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     selectedDateTime.dateTime = dateStr;
                     // Guardar la fecha seleccionada en localStorage
                     localStorage.setItem("Fecha seleccionada", dateStr);
+                    // Mostrar el formulario de datos para confirmar reserva
+                    datetimeInput.disabled = true;
+                    chooseButton.disabled = true;
+                    dateTimeContainer.classList.add('hidden');
+                    datosReservaDiv.classList.remove('hidden');
                 }
             });
 
@@ -89,17 +98,32 @@ document.addEventListener('DOMContentLoaded', function() {
             chooseButton.disabled = true;
         });
 
-    // Event listener para el envío del formulario
+    // Event listener para el envío del formulario inicial
     agregarForm.addEventListener("submit", agregarPersonas);
 
-    // Event listener para el botón de elegir
-    chooseButton.addEventListener('click', function() {
-        if (selectedDateTime.dateTime) {
-            console.log("Fecha y hora seleccionada:", selectedDateTime);
-            alert("Fecha y hora seleccionada: " + selectedDateTime.dateTime);
-        } else {
-            alert("Por favor, selecciona una fecha y hora.");
-        }
+    // Event listener para el envío del formulario de confirmación de reserva
+    confirmarReservaForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const nombre = document.querySelector("#nombre").value;
+        const apellido = document.querySelector("#apellido").value;
+        const celular = document.querySelector("#celular").value;
+
+        // Aquí podrías enviar los datos del usuario a tu backend o hacer el proceso necesario
+        // para confirmar la reserva
+
+        // Por ejemplo, mostrar un mensaje de confirmación
+        alert(`Reserva confirmada para ${nombre} ${apellido} con número de celular ${celular}.`);
+
+        // Limpia el localStorage
+        localStorage.removeItem("Cantidad de personas");
+        localStorage.removeItem("Fecha seleccionada");
+
+        // Reiniciar el formulario y estado de la aplicación
+        agregarForm.reset();
+        datetimeInput.disabled = true;
+        chooseButton.disabled = true;
+        dateTimeContainer.classList.remove('hidden');
+        datosReservaDiv.classList.add('hidden');
     });
 });
 // deberia poder hacer que se tome informacion del json para verificar y mostrar al usuario los horarios y fechas que no nestan disponibles
