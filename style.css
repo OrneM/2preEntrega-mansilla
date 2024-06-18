@@ -228,6 +228,12 @@ input[type="number"]::placeholder {
 }
 .visible {
   display: block;
+  color: #e9e3dc;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #d69d9d90;
 }
 
 .btn-pizzeria {

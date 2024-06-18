@@ -16,11 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dateTime: null
     };
 
-    // Inicialmente ocultar el campo de calendario y el formulario de datos
-    datetimeInput.disabled = true;
-    chooseButton.disabled = true;
-    datosReservaDiv.classList.add('hidden');
-
     // Función para manejar el envío del formulario inicial
     function agregarPersonas(e) {
         e.preventDefault();
@@ -73,23 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     firstDayOfWeek: 1 // Lunes es el primer día de la semana
                 },
                 disable: reservas.map(reserva => new Date(reserva.dateTime)),
-                onDayCreate: function(dObj, dStr, fp, dayElem) {
-                    const date = dayElem.dateObj;
-                    const fechaStr = date.toISOString().split('T')[0];
-                    const esFechaOcupada = reservas.some(reserva => reserva.dateTime.includes(fechaStr));
-                    if (esFechaOcupada) {
-                        dayElem.classList.add('flatpickr-disabled');
-                    }
-                },
                 onChange: function(selectedDates, dateStr) {
                     selectedDateTime.dateTime = dateStr;
-                    // Guardar la fecha seleccionada en localStorage
-                    localStorage.setItem("Fecha seleccionada", dateStr);
-                    // Mostrar el formulario de datos para confirmar reserva
-                    datetimeInput.disabled = true;
-                    chooseButton.disabled = true;
-                    dateTimeContainer.classList.add('hidden');
-                    datosReservaDiv.classList.remove('hidden');
+                    
                 }
             });
 
@@ -98,8 +79,38 @@ document.addEventListener('DOMContentLoaded', function() {
             chooseButton.disabled = true;
         });
 
+    // Función para mostrar el mensaje de confirmación con la fecha seleccionada
+    function mostrarMensajeConfirmacion() {
+        // Limpiar mensajes anteriores si los hay
+        let mensajeExistente = document.querySelector(".fechaElegida");
+        if (mensajeExistente) {
+            mensajeExistente.remove();
+        }
+    
+        // Obtener la fecha seleccionada del localStorage
+        let fechaSeleccionada = localStorage.getItem("Fecha seleccionada");
+    
+        if (fechaSeleccionada) {
+            let divFechaElegida = document.createElement("div");
+            divFechaElegida.className = "fechaElegida";
+            divFechaElegida.innerText = ` ✅ Fecha y hora seleccionada: ${fechaSeleccionada}`;
+            divFechaElegida.classList.add("visible");
+            agregar.append(divFechaElegida);
+        }
+    }
+
     // Event listener para el envío del formulario inicial
     agregarForm.addEventListener("submit", agregarPersonas);
+    chooseButton.addEventListener("click", function() {
+        // Guardar la fecha seleccionada en localStorage
+        localStorage.setItem("Fecha seleccionada", selectedDateTime.dateTime);
+        // Ocultar el contenedor de fecha y hora después de seleccionar
+        dateTimeContainer.classList.add('hidden');
+        // Mostrar mensaje de confirmación con la fecha seleccionada
+        mostrarMensajeConfirmacion();
+        // Mostrar el formulario de datos para confirmar reserva
+        datosReservaDiv.classList.remove('hidden');
+    })
 
     // Event listener para el envío del formulario de confirmación de reserva
     confirmarReservaForm.addEventListener('submit', function(e) {
@@ -122,7 +133,6 @@ document.addEventListener('DOMContentLoaded', function() {
         agregarForm.reset();
         datetimeInput.disabled = true;
         chooseButton.disabled = true;
-        dateTimeContainer.classList.remove('hidden');
         datosReservaDiv.classList.add('hidden');
     });
 });
