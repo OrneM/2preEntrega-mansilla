@@ -135,19 +135,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Mostrar alerta personalizada con SweetAlert2
         Swal.fire({
-            icon:"success",
+            icon: "success",
             title: "Reserva confirmada",
-            text: `${datosUsuario.nombre} ${datosUsuario.apellido}, tu reserva para: ${cantidadPersonas} personas, se registró correctamente. Te esperamos en la fecha que seleccionaste:  ${fechaSeleccionada} hs. Gracias por elegirnos!`,
+            text: `${datosUsuario.nombre} ${datosUsuario.apellido}, tu reserva para: ${cantidadPersonas} personas, se registró correctamente.
+                     Te esperamos en la fecha que seleccionaste:  ${fechaSeleccionada} hs.  Gracias por elegirnos!       
+                     Ante cualquier eventualidad nos comunicaremos al teléfono: ${datosUsuario.celular}`,
             width: 600,
             padding: "3em",
             color: "#700717",
-            background: "#fff url(/images/trees.png)",
+            background: "#fff",
             backdrop: `
                 rgba(0,0,123,0.4)
-                url("./car1.webp")
                 left top
                 no-repeat
             `
+        }).then(() => {
+            // Recarga la página después de que la alerta se cierre
+            window.location.reload();
         });
 
         // Reiniciar el formulario y estado de la aplicación

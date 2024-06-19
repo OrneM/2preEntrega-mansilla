@@ -231,8 +231,6 @@ input[type="number"]::placeholder {
   margin-left: 2%;
   padding: 10px 15px;
   font-size: 1em;
- 
-  
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   color: #721c24;
@@ -245,36 +243,39 @@ input[type="number"]::placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px 15px;
+
   font-size: 1em;
   
   border-radius: 5px;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #721c24;
-  
   color:#790606
 }
 
 .form-datos {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-left: 2%;
+  align-items: stretch;
   margin-bottom: 2%;
   padding: 10px 15px;
   font-size: 1em;
-  border: 2px solid #ee6270;
+  border: 2px solid #00000000;
   border-radius: 5px;
   outline: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  color: #721c24;
-  background-color: #f7b8b8c8;
-  color:#790606
+  color:#740505
 }
-#nombre #apellido #celular ::placeholder {
+input#nombre.form-datos::placeholder {
   color: #ff7b88;
-}
+} 
+
+input#apellido.form-datos::placeholder {
+  color: #ff7b88;
+} 
+
+input#celular.form-datos::placeholder {
+  color: #ff7b88;
+} 
 
 .visible {
   display: block;
@@ -330,6 +331,9 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
   border: 1px rgba(82, 2, 2, 0.5) solid;
 }
 
+button#confirm-button{
+  align-self:center
+}
   /*Estilos de footer*/
 .pie-pagina {
     display: flex;
