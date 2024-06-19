@@ -1,7 +1,4 @@
 
-// Interacción con el usuario seleccionando cantidad de  personas
-// Guardar cantidad de personas en el localStorage 
-
 document.addEventListener('DOMContentLoaded', function() {
     const agregarForm = document.querySelector("#agregar-form");
     const agregarInput = document.querySelector("#agregar-input");
@@ -57,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Inicializar el calendario Flatpickr
             const fp = flatpickr("#datetime", {
                 enableTime: true,
-                dateFormat: "Y-m-d H:i",
+                dateFormat: "d.m.Y H:i",
                 time_24hr: true,
                 defaultHour: 17,
                 minTime: "17:00",
@@ -70,7 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 disable: reservas.map(reserva => new Date(reserva.dateTime)),
                 onChange: function(selectedDates, dateStr) {
                     selectedDateTime.dateTime = dateStr;
-                    
                 }
             });
 
@@ -86,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mensajeExistente) {
             mensajeExistente.remove();
         }
-    
+
         // Obtener la fecha seleccionada del localStorage
         let fechaSeleccionada = localStorage.getItem("Fecha seleccionada");
-    
+
         if (fechaSeleccionada) {
             let divFechaElegida = document.createElement("div");
             divFechaElegida.className = "fechaElegida";
@@ -101,16 +97,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener para el envío del formulario inicial
     agregarForm.addEventListener("submit", agregarPersonas);
+
+    // Event listener para el botón de seleccionar fecha y hora
     chooseButton.addEventListener("click", function() {
         // Guardar la fecha seleccionada en localStorage
         localStorage.setItem("Fecha seleccionada", selectedDateTime.dateTime);
         // Ocultar el contenedor de fecha y hora después de seleccionar
-        dateTimeContainer.classList.add('hidden');
+        dateTimeContainer.style.display = 'none';
         // Mostrar mensaje de confirmación con la fecha seleccionada
         mostrarMensajeConfirmacion();
-        // Mostrar el formulario de datos para confirmar reserva
+        // Habilitar el formulario de datos para confirmar reserva
+        const inputs = datosReservaDiv.querySelectorAll('input');
+        inputs.forEach(input => input.disabled = false);
+        const submitButton = datosReservaDiv.querySelector('button');
+        submitButton.disabled = false;
         datosReservaDiv.classList.remove('hidden');
-    })
+    });
 
     // Event listener para el envío del formulario de confirmación de reserva
     confirmarReservaForm.addEventListener('submit', function(e) {
@@ -119,15 +121,34 @@ document.addEventListener('DOMContentLoaded', function() {
         const apellido = document.querySelector("#apellido").value;
         const celular = document.querySelector("#celular").value;
 
-        // Aquí podrías enviar los datos del usuario a tu backend o hacer el proceso necesario
-        // para confirmar la reserva
+        // Guardar los datos del usuario en el localStorage
+        localStorage.setItem("Datos del usuario", JSON.stringify({
+            nombre: nombre,
+            apellido: apellido,
+            celular: celular
+        }));
 
-        // Por ejemplo, mostrar un mensaje de confirmación
-        alert(`Reserva confirmada para ${nombre} ${apellido} con número de celular ${celular}.`);
+        // Obtener todos los datos del localStorage
+        const cantidadPersonas = localStorage.getItem("Cantidad de personas");
+        const fechaSeleccionada = localStorage.getItem("Fecha seleccionada");
+        const datosUsuario = JSON.parse(localStorage.getItem("Datos del usuario"));
 
-        // Limpia el localStorage
-        localStorage.removeItem("Cantidad de personas");
-        localStorage.removeItem("Fecha seleccionada");
+        // Mostrar alerta personalizada con SweetAlert2
+        Swal.fire({
+            icon:"success",
+            title: "Reserva confirmada",
+            text: `${datosUsuario.nombre} ${datosUsuario.apellido}, tu reserva para: ${cantidadPersonas} personas, se registró correctamente. Te esperamos en la fecha que seleccionaste:  ${fechaSeleccionada} hs. Gracias por elegirnos!`,
+            width: 600,
+            padding: "3em",
+            color: "#700717",
+            background: "#fff url(/images/trees.png)",
+            backdrop: `
+                rgba(0,0,123,0.4)
+                url("./car1.webp")
+                left top
+                no-repeat
+            `
+        });
 
         // Reiniciar el formulario y estado de la aplicación
         agregarForm.reset();
@@ -136,10 +157,3 @@ document.addEventListener('DOMContentLoaded', function() {
         datosReservaDiv.classList.add('hidden');
     });
 });
-// deberia poder hacer que se tome informacion del json para verificar y mostrar al usuario los horarios y fechas que no nestan disponibles
-//antes de que empiece a elegir y que estos dias y horarios ocupados se pinten de rojo
-
-/*_______________________________________________________________________________________________*/ 
-
-// FORMULARIO
-
