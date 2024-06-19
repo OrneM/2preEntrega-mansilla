@@ -9,9 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const datosReservaDiv = document.querySelector("#datos-reserva");
     const confirmarReservaForm = document.querySelector("#confirmar-reserva-form");
 
-    const selectedDateTime = {
+    // Definir selectedDateTime en el ámbito correcto
+    let selectedDateTime = {
         dateTime: null
     };
+
+    let reservasOcupadas = [];
+    let divCantidadElegida;
 
     // Función para manejar el envío del formulario inicial
     function agregarPersonas(e) {
@@ -19,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const inputValue = parseInt(agregarInput.value, 10);
         agregar.innerHTML = "";
 
-        let divCantidadElegida = document.createElement("div");
+        divCantidadElegida = document.createElement("div");
         divCantidadElegida.className = "cantidadElegida";
 
         if (inputValue >= 1 && inputValue <= 8) {
@@ -41,39 +45,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Cargar y procesar reservas desde el archivo JSON
-    fetch('reservas.json')
-        .then(response => response.json())
-        .then(data => {
-            const reservas = data.map(reserva => {
-                return {
-                    dateTime: reserva.fechaHora,
-                    cantidad: reserva.cantidad
-                };
-            });
+    function cargarReservas() {
+        fetch('reservas.json')
+            .then(response => response.json())
+            .then(data => {
+                reservasOcupadas = data.map(reserva => reserva.fechaHora);
 
-            // Inicializar el calendario Flatpickr
-            const fp = flatpickr("#datetime", {
-                enableTime: true,
-                dateFormat: "d.m.Y H:i",
-                time_24hr: true,
-                defaultHour: 17,
-                minTime: "17:00",
-                maxTime: "23:30",
-                minuteIncrement: 15,
-                minDate: "today",
-                locale: {
-                    firstDayOfWeek: 1 // Lunes es el primer día de la semana
-                },
-                disable: reservas.map(reserva => new Date(reserva.dateTime)),
-                onChange: function(selectedDates, dateStr) {
-                    selectedDateTime.dateTime = dateStr;
-                }
-            });
+                // Verificar también las reservas almacenadas en el localStorage
+                const reservasLocalStorage = JSON.parse(localStorage.getItem("Reservas")) || [];
+                reservasOcupadas = reservasOcupadas.concat(reservasLocalStorage);
 
-            // Mostrar los horarios no disponibles inicialmente
-            datetimeInput.disabled = true;
-            chooseButton.disabled = true;
-        });
+                // Inicializar el calendario Flatpickr
+                const fp = flatpickr("#datetime", {
+                    enableTime: true,
+                    dateFormat: "d.m.Y H:i",
+                    time_24hr: true,
+                    defaultHour: 17,
+                    minTime: "17:00",
+                    maxTime: "23:30",
+                    minuteIncrement: 15,
+                    minDate: "today",
+                    locale: {
+                        firstDayOfWeek: 1 // Lunes es el primer día de la semana
+                    },
+                    disable: reservasOcupadas.map(date => new Date(date)),
+                    onChange: function(selectedDates, dateStr) {
+                        selectedDateTime.dateTime = dateStr;
+                    }
+                });
+
+                // Mostrar los horarios no disponibles inicialmente
+                datetimeInput.disabled = true;
+                chooseButton.disabled = true;
+            });
+    }
+
+    // Cargar reservas iniciales
+    cargarReservas();
 
     // Función para mostrar el mensaje de confirmación con la fecha seleccionada
     function mostrarMensajeConfirmacion() {
@@ -100,8 +108,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener para el botón de seleccionar fecha y hora
     chooseButton.addEventListener("click", function() {
+        // Verificar si la fecha seleccionada ya está ocupada
+        const fechaSeleccionada = selectedDateTime.dateTime;
+        if (reservasOcupadas.includes(fechaSeleccionada)) {
+            Swal.fire({
+                icon: "error",
+                title: "Hora ocupada",
+                text: "Esta hora seleccionada ya está ocupada. Por favor, elegí otra."
+            });
+            return;
+        }
+
         // Guardar la fecha seleccionada en localStorage
-        localStorage.setItem("Fecha seleccionada", selectedDateTime.dateTime);
+        localStorage.setItem("Fecha seleccionada", fechaSeleccionada);
         // Ocultar el contenedor de fecha y hora después de seleccionar
         dateTimeContainer.style.display = 'none';
         // Mostrar mensaje de confirmación con la fecha seleccionada
@@ -133,12 +152,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const fechaSeleccionada = localStorage.getItem("Fecha seleccionada");
         const datosUsuario = JSON.parse(localStorage.getItem("Datos del usuario"));
 
+        // Guardar la reserva en el localStorage
+        const reservasLocalStorage = JSON.parse(localStorage.getItem("Reservas")) || [];
+        reservasLocalStorage.push(fechaSeleccionada);
+        localStorage.setItem("Reservas", JSON.stringify(reservasLocalStorage));
+
+        // Actualizar la lista de reservas ocupadas
+        reservasOcupadas.push(fechaSeleccionada);
+
         // Mostrar alerta personalizada con SweetAlert2
         Swal.fire({
             icon: "success",
             title: "Reserva confirmada",
             text: `${datosUsuario.nombre} ${datosUsuario.apellido}, tu reserva para: ${cantidadPersonas} personas, se registró correctamente.
-                     Te esperamos en la fecha que seleccionaste:  ${fechaSeleccionada} hs.  Gracias por elegirnos!       
+                     Te esperamos en la fecha que seleccionaste: ${fechaSeleccionada} hs. Gracias por elegirnos!
                      Ante cualquier eventualidad nos comunicaremos al teléfono: ${datosUsuario.celular}`,
             width: 600,
             padding: "3em",
@@ -150,14 +177,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 no-repeat
             `
         }).then(() => {
-            // Recarga la página después de que la alerta se cierre
+            // Recargar la página después de que la alerta se cierre para limpiar los campos
             window.location.reload();
         });
 
         // Reiniciar el formulario y estado de la aplicación
         agregarForm.reset();
-        datetimeInput.disabled = true;
-        chooseButton.disabled = true;
-        datosReservaDiv.classList.add('hidden');
+        confirmarReservaForm.reset();
     });
 });
+
